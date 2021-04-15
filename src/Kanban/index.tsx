@@ -16,11 +16,8 @@ const Kanban: React.FC<Props> = ({ cardContents }) => (
   <KanbanContainer>
     {/* TODO:列ごとに表示出来るようにする */}
     <Droppable droppableId="cards">
-      {droppableProvided => (
-        <div
-          ref={droppableProvided.innerRef}
-          {...droppableProvided.droppableProps}
-        >
+      {provided => (
+        <div ref={provided.innerRef} {...provided.droppableProps}>
           {cardContents.map((cardContent, index) => {
             return (
               <Card
