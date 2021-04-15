@@ -2,24 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import Kanban from './Kanban';
-
-const testCards = [
-  {
-    id: 'nanasaki',
-    title: '七咲逢',
-    body: '水泳部後輩',
-  },
-  {
-    id: 'shinboriRudorufu',
-    title: 'アグネスタキオン',
-    body: 'ハイライトなんていらないんですよやっぱり',
-  },
-  {
-    id: 'cherryBakushinKing',
-    title: 'サクラバクシンオー',
-    body: 'バクシンバクシンバクシンー！！！！！',
-  },
-];
+import { useCardContents } from './hooks/cardContents';
 
 const AppContainer = styled.div`
   background-color: #99aab5;
@@ -27,16 +10,31 @@ const AppContainer = styled.div`
   width: 100vw;
 `;
 
-const onDragEnd = (result: DropResult) => {
-  console.log(result);
-};
+const App: React.FC = () => {
+  const [cardContents, updateCardContents] = useCardContents();
 
-const App: React.FC = () => (
-  <DragDropContext onDragEnd={onDragEnd}>
-    <AppContainer>
-      <Kanban cardContents={testCards} />
-    </AppContainer>
-  </DragDropContext>
-);
+  const onDragEnd = (result: DropResult) => {
+    if (
+      !result.destination ||
+      result.destination.index === result.source.index
+    ) {
+      return;
+    }
+
+    const nextContents = [...cardContents];
+    const [targetContent] = nextContents.splice(result.source.index, 1);
+    nextContents.splice(result.destination.index, 0, targetContent);
+
+    updateCardContents(nextContents);
+  };
+
+  return (
+    <DragDropContext onDragEnd={onDragEnd}>
+      <AppContainer>
+        <Kanban cardContents={cardContents} />
+      </AppContainer>
+    </DragDropContext>
+  );
+};
 
 export default App;
