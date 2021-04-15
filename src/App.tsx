@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import Kanban from './Kanban';
 
 const testCards = [
@@ -26,10 +27,16 @@ const AppContainer = styled.div`
   width: 100vw;
 `;
 
+const onDragEnd = (result: DropResult) => {
+  console.log(result);
+};
+
 const App: React.FC = () => (
-  <AppContainer>
-    <Kanban cardContents={testCards} />
-  </AppContainer>
+  <DragDropContext onDragEnd={onDragEnd}>
+    <AppContainer>
+      <Kanban cardContents={testCards} />
+    </AppContainer>
+  </DragDropContext>
 );
 
 export default App;
