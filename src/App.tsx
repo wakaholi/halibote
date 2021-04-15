@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 import Kanban from './Kanban';
 
 const testCards = [
@@ -19,6 +20,16 @@ const testCards = [
   },
 ];
 
-const App: React.FC = () => <Kanban cardContents={testCards} />;
+const AppContainer = styled.div`
+  background-color: #99aab5;
+  height: 100vh;
+  width: 100vw;
+`;
+
+const App: React.FC = () => (
+  <AppContainer>
+    <Kanban cardContents={testCards} />
+  </AppContainer>
+);
 
 export default App;

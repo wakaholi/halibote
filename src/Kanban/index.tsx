@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Card from './Card';
 
 const KanbanContainer = styled.div`
-  margin: 20px;
+  padding: 20px;
 `;
 
 type CardContent = {
