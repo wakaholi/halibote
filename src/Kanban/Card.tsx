@@ -27,11 +27,11 @@ type Props = {
 const Card: React.FC<Props> = ({ cardContent, index }) => (
   <div>
     <Draggable draggableId={cardContent.id} index={index}>
-      {draggableProvided => (
+      {provided => (
         <CardContainer
-          ref={draggableProvided.innerRef}
-          {...draggableProvided.draggableProps}
-          {...draggableProvided.dragHandleProps}
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
         >
           <Title>{cardContent.title}</Title>
           <div>{cardContent.body}</div>
