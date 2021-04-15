@@ -27,6 +27,7 @@ const Kanban: React.FC<Props> = ({ cardContents }) => (
               />
             );
           })}
+          {provided.placeholder}
         </div>
       )}
     </Droppable>
