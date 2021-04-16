@@ -6,6 +6,7 @@ import { CardContent } from '../domain/CardContent';
 
 const KanbanContainer = styled.div`
   display: flex;
+  justify-content: space-evenly;
   padding: 20px;
 `;
 
