@@ -9,6 +9,18 @@ body {
   margin: 0;
 }
 
+input {
+  font-family: 'Noto Sans Japanese', 'ヒラギノ角ゴ ProN',
+    'Hiragino Kaku Gothic ProN', 'メイリオ', 'ＭＳ Ｐゴシック', 'MS PGothic',
+    sans-serif;
+}
+
+textarea {
+  font-family: 'Noto Sans Japanese', 'ヒラギノ角ゴ ProN',
+    'Hiragino Kaku Gothic ProN', 'メイリオ', 'ＭＳ Ｐゴシック', 'MS PGothic',
+    sans-serif;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
