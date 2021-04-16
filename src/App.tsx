@@ -14,10 +14,7 @@ const App: React.FC = () => {
   const [kanbanContents, updateKanbanContents] = useKanbanContents();
 
   const onDragEnd = (result: DropResult) => {
-    if (
-      !result.destination ||
-      result.destination.index === result.source.index
-    ) {
+    if (!result.destination) {
       return;
     }
     const columnNumber = Number(
