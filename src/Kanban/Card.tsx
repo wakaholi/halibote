@@ -68,9 +68,8 @@ const Card: React.FC<Props> = ({ cardContent, index }) => {
                   setBody(event.currentTarget.value);
                 }}
                 rows={7}
-              >
-                {body}
-              </TextArea>
+                defaultValue={body}
+              />
             </CardContentContainer>
           </CardContainer>
         )}
