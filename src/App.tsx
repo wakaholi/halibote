@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import Kanban from './Kanban';
-import { useCardContents } from './hooks/cardContents';
+import { useKanbanContents } from './hooks/kanbanContents';
 
 const AppContainer = styled.div`
   background-color: #99aab5;
@@ -11,7 +11,7 @@ const AppContainer = styled.div`
 `;
 
 const App: React.FC = () => {
-  const [cardContents, updateCardContents] = useCardContents();
+  const [kanbanContents, updateKanbanContents] = useKanbanContents();
 
   const onDragEnd = (result: DropResult) => {
     if (
@@ -20,18 +20,33 @@ const App: React.FC = () => {
     ) {
       return;
     }
+    const columnNumber = Number(
+      result.source.droppableId.substr(result.source.droppableId.length - 1),
+    );
+    const nextColumnNumber = Number(
+      result.destination.droppableId.substr(
+        result.destination.droppableId.length - 1,
+      ),
+    );
 
-    const nextContents = [...cardContents];
-    const [targetContent] = nextContents.splice(result.source.index, 1);
-    nextContents.splice(result.destination.index, 0, targetContent);
+    const nextKanbanContents = [...kanbanContents];
+    const [targetCard] = nextKanbanContents[columnNumber].splice(
+      result.source.index,
+      1,
+    );
+    nextKanbanContents[nextColumnNumber].splice(
+      result.destination.index,
+      0,
+      targetCard,
+    );
 
-    updateCardContents(nextContents);
+    updateKanbanContents(nextKanbanContents);
   };
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <AppContainer>
-        <Kanban cardContents={cardContents} />
+        <Kanban kanbanContents={kanbanContents} />
       </AppContainer>
     </DragDropContext>
   );

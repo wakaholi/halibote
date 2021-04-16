@@ -5,32 +5,38 @@ import Card from './Card';
 import { CardContent } from '../domain/CardContent';
 
 const KanbanContainer = styled.div`
+  display: flex;
   padding: 20px;
 `;
 
 type Props = {
-  cardContents: CardContent[];
+  kanbanContents: CardContent[][];
 };
 
-const Kanban: React.FC<Props> = ({ cardContents }) => (
+const Kanban: React.FC<Props> = ({ kanbanContents }) => (
   <KanbanContainer>
-    {/* TODO:列ごとに表示出来るようにする */}
-    <Droppable droppableId="cards">
-      {provided => (
-        <div ref={provided.innerRef} {...provided.droppableProps}>
-          {cardContents.map((cardContent, index) => {
-            return (
-              <Card
-                key={cardContent.id}
-                cardContent={cardContent}
-                index={index}
-              />
-            );
-          })}
-          {provided.placeholder}
-        </div>
-      )}
-    </Droppable>
+    {kanbanContents.map((cardContents, kanbanIndex) => {
+      const droppableId = `column${kanbanIndex}`;
+
+      return (
+        <Droppable key={droppableId} droppableId={droppableId}>
+          {provided => (
+            <div ref={provided.innerRef} {...provided.droppableProps}>
+              {cardContents.map((cardContent, cardIndex) => {
+                return (
+                  <Card
+                    key={cardContent.id}
+                    cardContent={cardContent}
+                    index={cardIndex}
+                  />
+                );
+              })}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      );
+    })}
   </KanbanContainer>
 );
 
