@@ -1,11 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Draggable } from 'react-beautiful-dnd';
 import { CardContent } from '../domain/CardContent';
 
-const Title = styled.div`
+const Title = styled.input`
+  border: 0;
   font-size: 20px;
   font-weight: 900;
+`;
+
+const TextArea = styled.textarea`
+  border: 0;
+  font-size: 13px;
+  font-weight: Bold;
+  height: 100%;
+  margin-top: 8px;
+  resize: none;
+  width: 100%;
 `;
 
 const CardContainer = styled.div`
@@ -19,26 +30,53 @@ const CardContainer = styled.div`
   width: 288px;
 `;
 
+const CardContentContainer = styled.div`
+  max-height: 100%;
+  max-width: 100%;
+`;
+
 type Props = {
   cardContent: CardContent;
   index: number;
 };
 
-const Card: React.FC<Props> = ({ cardContent, index }) => (
-  <div>
-    <Draggable draggableId={cardContent.id} index={index}>
-      {provided => (
-        <CardContainer
-          ref={provided.innerRef}
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-        >
-          <Title>{cardContent.title}</Title>
-          <div>{cardContent.body}</div>
-        </CardContainer>
-      )}
-    </Draggable>
-  </div>
-);
+const Card: React.FC<Props> = ({ cardContent, index }) => {
+  const [title, setTitle] = useState(cardContent.title);
+  const [body, setBody] = useState(cardContent.body);
+
+  return (
+    <div>
+      <Draggable draggableId={cardContent.id} index={index}>
+        {provided => (
+          <CardContainer
+            ref={provided.innerRef}
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+          >
+            <CardContentContainer>
+              <Title
+                value={title}
+                onChange={(event: React.SyntheticEvent<HTMLInputElement>) => {
+                  setTitle(event.currentTarget.value);
+                }}
+                maxLength={12}
+              />
+              <TextArea
+                onChange={(
+                  event: React.SyntheticEvent<HTMLTextAreaElement>,
+                ) => {
+                  setBody(event.currentTarget.value);
+                }}
+                rows={7}
+              >
+                {body}
+              </TextArea>
+            </CardContentContainer>
+          </CardContainer>
+        )}
+      </Draggable>
+    </div>
+  );
+};
 
 export default Card;
