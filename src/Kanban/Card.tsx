@@ -5,7 +5,7 @@ import { CardContent } from '../domain/CardContent';
 
 const Title = styled.div`
   font-size: 20px;
-  font-weight: bold;
+  font-weight: 900;
 `;
 
 const CardContainer = styled.div`
