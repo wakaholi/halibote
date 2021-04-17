@@ -36,11 +36,24 @@ const CardContentContainer = styled.div`
 `;
 
 type Props = {
+  column: number;
   cardContent: CardContent;
   index: number;
+  updateKanbanContents: (
+    beforeColumn: number,
+    afterColumn: number,
+    beforeIndex: number,
+    afterIndex: number,
+    cardContent?: CardContent,
+  ) => void;
 };
 
-const Card: React.FC<Props> = ({ cardContent, index }) => {
+const Card: React.FC<Props> = ({
+  column,
+  cardContent,
+  index,
+  updateKanbanContents,
+}) => {
   const [title, setTitle] = useState(cardContent.title);
   const [body, setBody] = useState(cardContent.body);
 
@@ -59,6 +72,13 @@ const Card: React.FC<Props> = ({ cardContent, index }) => {
                 onChange={(event: React.SyntheticEvent<HTMLInputElement>) => {
                   setTitle(event.currentTarget.value);
                 }}
+                onBlur={() => {
+                  const nextCard = {
+                    ...cardContent,
+                    title,
+                  };
+                  updateKanbanContents(column, column, index, index, nextCard);
+                }}
                 maxLength={12}
               />
               <TextArea
@@ -66,6 +86,13 @@ const Card: React.FC<Props> = ({ cardContent, index }) => {
                   event: React.SyntheticEvent<HTMLTextAreaElement>,
                 ) => {
                   setBody(event.currentTarget.value);
+                }}
+                onBlur={() => {
+                  const nextCard = {
+                    ...cardContent,
+                    body,
+                  };
+                  updateKanbanContents(column, column, index, index, nextCard);
                 }}
                 rows={7}
                 defaultValue={body}

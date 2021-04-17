@@ -12,9 +12,16 @@ const KanbanContainer = styled.div`
 
 type Props = {
   kanbanContents: CardContent[][];
+  updateKanbanContents: (
+    beforeColumn: number,
+    afterColumn: number,
+    beforeIndex: number,
+    afterIndex: number,
+    cardContent?: CardContent,
+  ) => void;
 };
 
-const Kanban: React.FC<Props> = ({ kanbanContents }) => (
+const Kanban: React.FC<Props> = ({ kanbanContents, updateKanbanContents }) => (
   <KanbanContainer>
     {kanbanContents.map((cardContents, kanbanIndex) => {
       const droppableId = `column${kanbanIndex}`;
@@ -27,8 +34,10 @@ const Kanban: React.FC<Props> = ({ kanbanContents }) => (
                 return (
                   <Card
                     key={cardContent.id}
+                    column={kanbanIndex}
                     cardContent={cardContent}
                     index={cardIndex}
+                    updateKanbanContents={updateKanbanContents}
                   />
                 );
               })}

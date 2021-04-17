@@ -25,25 +25,21 @@ const App: React.FC = () => {
         result.destination.droppableId.length - 1,
       ),
     );
-
-    const nextKanbanContents = [...kanbanContents];
-    const [targetCard] = nextKanbanContents[columnNumber].splice(
+    updateKanbanContents(
+      columnNumber,
+      nextColumnNumber,
       result.source.index,
-      1,
-    );
-    nextKanbanContents[nextColumnNumber].splice(
       result.destination.index,
-      0,
-      targetCard,
     );
-
-    updateKanbanContents(nextKanbanContents);
   };
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <AppContainer>
-        <Kanban kanbanContents={kanbanContents} />
+        <Kanban
+          kanbanContents={kanbanContents}
+          updateKanbanContents={updateKanbanContents}
+        />
       </AppContainer>
     </DragDropContext>
   );

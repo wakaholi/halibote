@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
+import { CardContent } from 'domain/CardContent';
 
 const testKanbanContents = [
   [
@@ -57,5 +58,27 @@ const testKanbanContents = [
 export const useKanbanContents = () => {
   const [kanbanContents, updateKanbanContents] = useState(testKanbanContents);
 
-  return [kanbanContents, updateKanbanContents] as const;
+  const kanbanHandler = useCallback(
+    (
+      beforeColumn: number,
+      afterColumn: number,
+      beforeIndex: number,
+      afterIndex: number,
+      cardContent?: CardContent,
+    ) => {
+      const nextKanbanContents = [...kanbanContents];
+      // cardContentがある場合は更新される。
+      const targetCard = {
+        ...nextKanbanContents[beforeColumn].splice(beforeIndex, 1)[0],
+        ...cardContent,
+      };
+
+      nextKanbanContents[afterColumn].splice(afterIndex, 0, targetCard);
+
+      updateKanbanContents(nextKanbanContents);
+    },
+    [kanbanContents],
+  );
+
+  return [kanbanContents, kanbanHandler] as const;
 };
