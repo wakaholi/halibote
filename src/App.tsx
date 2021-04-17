@@ -7,6 +7,7 @@ import { useKanbanContents } from './hooks/kanbanContents';
 const AppContainer = styled.div`
   background-color: #99aab5;
   height: 100vh;
+  overflow-y: scroll;
   width: 100vw;
 `;
 
