@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import Kanban from './Kanban';
 import Project from './Project';
+import Boards from './Boards';
 import { useKanbanContents } from './hooks/kanbanContents';
 
 const AppContainer = styled.div`
@@ -40,6 +41,7 @@ const App: React.FC = () => {
     <DragDropContext onDragEnd={onDragEnd}>
       <AppContainer>
         <Project />
+        <Boards />
         <Kanban
           kanbanContents={kanbanContents}
           updateKanbanContents={updateKanbanContents}

@@ -5,6 +5,7 @@ import { CardContent } from '../domain/CardContent';
 
 const KanbanContainer = styled.div`
   background-color: #f4f5ff;
+  flex: 1;
   height: 100vh;
   overflow-y: scroll;
   padding: 0 40px;
