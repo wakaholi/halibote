@@ -5,15 +5,15 @@ import { CardContent } from '../domain/CardContent';
 
 const Title = styled.input`
   border: 0;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 900;
 `;
 
 const TextArea = styled.textarea`
   border: 0;
   font-size: 13px;
-  font-weight: Bold;
-  height: 100%;
+  font-weight: medium;
+  height: 118px;
   margin-top: 8px;
   resize: none;
   width: 100%;
@@ -21,11 +21,9 @@ const TextArea = styled.textarea`
 
 const CardContainer = styled.div`
   background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 20px;
-  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 25px 2px rgba(0, 0, 0, 0.1);
   height: 200px;
-  margin-top: 10px;
+  margin-top: 16px;
   padding: 8px;
   width: 288px;
 `;
