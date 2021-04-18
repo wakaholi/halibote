@@ -50,6 +50,7 @@ const BoardLabel = styled.div`
   margin-left: 16px;
 `;
 
+// TODO: 新規作成・選択可能にする
 const Boards: React.FC = () => {
   return (
     <BoardsContainer>

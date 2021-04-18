@@ -46,6 +46,7 @@ const ProjectBadge = styled.div`
   width: 64px;
 `;
 
+// TODO: 新規作成・選択可能にする
 const Project: React.FC = () => {
   return (
     <ProjectContainer>
