@@ -12,7 +12,6 @@ const Title = styled.input`
 const TextArea = styled.textarea`
   border: 0;
   font-size: 13px;
-  font-weight: medium;
   height: 118px;
   margin-top: 8px;
   resize: none;

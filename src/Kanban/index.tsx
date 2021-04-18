@@ -1,13 +1,37 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Droppable } from 'react-beautiful-dnd';
-import Card from './Card';
+import Column from './Column';
 import { CardContent } from '../domain/CardContent';
 
 const KanbanContainer = styled.div`
+  background-color: #f4f5ff;
+  height: 100vh;
+  overflow-y: scroll;
+  padding: 0 40px;
+`;
+
+const Header = styled.div`
+  align-items: center;
+  border-bottom: solid 0.5px #303435;
   display: flex;
-  justify-content: space-evenly;
-  padding: 20px;
+  height: 112px;
+`;
+
+const ProjectTitleLabel = styled.div`
+  font-size: 48px;
+  font-weight: 900;
+`;
+
+const TasksLabel = styled.div`
+  font-size: 48px;
+  font-weight: 900;
+  margin-top: 12px;
+`;
+
+const FlexContainer = styled.div`
+  display: flex;
+  margin-top: 16px;
+  width: 100%;
 `;
 
 type Props = {
@@ -23,30 +47,24 @@ type Props = {
 
 const Kanban: React.FC<Props> = ({ kanbanContents, updateKanbanContents }) => (
   <KanbanContainer>
-    {kanbanContents.map((cardContents, kanbanIndex) => {
-      const droppableId = `column${kanbanIndex}`;
+    <Header>
+      <ProjectTitleLabel>FoxTale</ProjectTitleLabel>
+    </Header>
+    <TasksLabel>Tasks</TasksLabel>
+    <FlexContainer>
+      {kanbanContents.map((cardContents, index) => {
+        const droppableId = `column${index}`;
 
-      return (
-        <Droppable key={droppableId} droppableId={droppableId}>
-          {provided => (
-            <div ref={provided.innerRef} {...provided.droppableProps}>
-              {cardContents.map((cardContent, cardIndex) => {
-                return (
-                  <Card
-                    key={cardContent.id}
-                    column={kanbanIndex}
-                    cardContent={cardContent}
-                    index={cardIndex}
-                    updateKanbanContents={updateKanbanContents}
-                  />
-                );
-              })}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      );
-    })}
+        return (
+          <Column
+            key={droppableId}
+            column={index}
+            cardContents={cardContents}
+            updateKanbanContents={updateKanbanContents}
+          />
+        );
+      })}
+    </FlexContainer>
   </KanbanContainer>
 );
 

@@ -5,7 +5,7 @@ import Kanban from './Kanban';
 import { useKanbanContents } from './hooks/kanbanContents';
 
 const AppContainer = styled.div`
-  background-color: #99aab5;
+  background-color: #0c242c;
   height: 100vh;
   overflow-y: scroll;
   width: 100vw;
