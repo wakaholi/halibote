@@ -2,10 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import Kanban from './Kanban';
+import Project from './Project';
 import { useKanbanContents } from './hooks/kanbanContents';
 
 const AppContainer = styled.div`
   background-color: #0c242c;
+  display: flex;
   height: 100vh;
   overflow-y: scroll;
   width: 100vw;
@@ -37,6 +39,7 @@ const App: React.FC = () => {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <AppContainer>
+        <Project />
         <Kanban
           kanbanContents={kanbanContents}
           updateKanbanContents={updateKanbanContents}
