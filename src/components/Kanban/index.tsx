@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { v4 as uuidv4 } from 'uuid';
 import Column from './Column';
 import { CardContent, defaultContent } from '../../domain/CardContent';
 import AddTaskButton from '../Buttons/AddTaskButton';
@@ -71,7 +72,7 @@ const Kanban: React.FC<Props> = ({ kanbanContents, updateKanbanContents }) => (
       onClick={() => {
         const newCard = {
           ...defaultContent,
-          id: String(kanbanContents[0].length + 1),
+          id: uuidv4(),
         };
         updateKanbanContents(
           0,
