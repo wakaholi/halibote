@@ -4,7 +4,7 @@ import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import Kanban from './Kanban';
 import Project from './Project';
 import Boards from './Boards';
-import { useKanbanContents } from './hooks/kanbanContents';
+import { useKanbanContents } from '../hooks/kanbanContents';
 
 const AppContainer = styled.div`
   background-color: #0c242c;

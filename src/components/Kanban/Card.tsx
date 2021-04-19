@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Draggable } from 'react-beautiful-dnd';
-import { CardContent } from '../domain/CardContent';
+import { CardContent } from '../../domain/CardContent';
 
 const Title = styled.input`
   border: 0;

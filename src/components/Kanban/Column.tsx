@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Droppable } from 'react-beautiful-dnd';
-import { CardContent } from '../domain/CardContent';
+import { CardContent } from '../../domain/CardContent';
 import Card from './Card';
 
 const Title = styled.div`

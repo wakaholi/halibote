@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import halibote from './images/halibote.svg';
+import halibote from '../images/halibote.svg';
 
 const ProjectContainer = styled.div`
   align-items: center;

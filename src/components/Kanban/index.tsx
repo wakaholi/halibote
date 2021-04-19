@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Column from './Column';
-import { CardContent } from '../domain/CardContent';
+import { CardContent } from '../../domain/CardContent';
 
 const KanbanContainer = styled.div`
   background-color: #f4f5ff;
