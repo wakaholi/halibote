@@ -77,6 +77,7 @@ const Card: React.FC<Props> = ({
                   updateKanbanContents(column, column, index, index, nextCard);
                 }}
                 maxLength={12}
+                placeholder="タイトル"
               />
               <TextArea
                 onChange={(
@@ -93,6 +94,7 @@ const Card: React.FC<Props> = ({
                 }}
                 rows={7}
                 defaultValue={body}
+                placeholder="タスクの概要を書いてください"
               />
             </CardContentContainer>
           </CardContainer>
