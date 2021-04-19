@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import Column from './Column';
-import { CardContent } from '../../domain/CardContent';
+import { CardContent, defaultContent } from '../../domain/CardContent';
+import AddTaskButton from '../Buttons/AddTaskButton';
 
 const KanbanContainer = styled.div`
   background-color: #f4f5ff;
@@ -66,6 +67,21 @@ const Kanban: React.FC<Props> = ({ kanbanContents, updateKanbanContents }) => (
         );
       })}
     </FlexContainer>
+    <AddTaskButton
+      onClick={() => {
+        const newCard = {
+          ...defaultContent,
+          id: String(kanbanContents[0].length + 1),
+        };
+        updateKanbanContents(
+          0,
+          0,
+          kanbanContents[0].length,
+          kanbanContents[0].length + 1,
+          newCard,
+        );
+      }}
+    />
   </KanbanContainer>
 );
 

@@ -3,3 +3,9 @@ export type CardContent = {
   title: string;
   body: string;
 };
+
+export const defaultContent: CardContent = {
+  id: '',
+  title: '',
+  body: '',
+};
