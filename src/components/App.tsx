@@ -5,6 +5,7 @@ import Kanban from './Kanban';
 import Project from './Project';
 import Boards from './Boards';
 import { useKanbanContents } from '../hooks/kanbanContents';
+import { useUserInfo } from '../hooks/userInfo';
 
 const AppContainer = styled.div`
   background-color: #0c242c;
@@ -16,6 +17,7 @@ const AppContainer = styled.div`
 
 const App: React.FC = () => {
   const [kanbanContents, updateKanbanContents] = useKanbanContents();
+  const userInfo = useUserInfo();
 
   const onDragEnd = (result: DropResult) => {
     if (!result.destination) {
@@ -39,14 +41,16 @@ const App: React.FC = () => {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <AppContainer>
-        <Project />
-        <Boards />
-        <Kanban
-          kanbanContents={kanbanContents}
-          updateKanbanContents={updateKanbanContents}
-        />
-      </AppContainer>
+      {userInfo.uid ? (
+        <AppContainer>
+          <Project />
+          <Boards />
+          <Kanban
+            kanbanContents={kanbanContents}
+            updateKanbanContents={updateKanbanContents}
+          />
+        </AppContainer>
+      ) : null}
     </DragDropContext>
   );
 };
