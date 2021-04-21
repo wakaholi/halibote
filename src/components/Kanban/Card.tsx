@@ -36,7 +36,7 @@ type Props = {
   column: number;
   cardContent: CardContent;
   index: number;
-  updateKanbanContents: (
+  updateKanban: (
     beforeColumn: number,
     afterColumn: number,
     beforeIndex: number,
@@ -49,14 +49,15 @@ const Card: React.FC<Props> = ({
   column,
   cardContent,
   index,
-  updateKanbanContents,
+  updateKanban,
 }) => {
   const [title, setTitle] = useState(cardContent.title);
   const [body, setBody] = useState(cardContent.body);
+  const draggableId = cardContent.id || `draggable-${index}`;
 
   return (
     <div>
-      <Draggable draggableId={cardContent.id} index={index}>
+      <Draggable draggableId={draggableId} index={index}>
         {provided => (
           <CardContainer
             ref={provided.innerRef}
@@ -74,7 +75,7 @@ const Card: React.FC<Props> = ({
                     ...cardContent,
                     title,
                   };
-                  updateKanbanContents(column, column, index, index, nextCard);
+                  updateKanban(column, column, index, index, nextCard);
                 }}
                 maxLength={12}
                 placeholder="タイトル"
@@ -90,7 +91,7 @@ const Card: React.FC<Props> = ({
                     ...cardContent,
                     body,
                   };
-                  updateKanbanContents(column, column, index, index, nextCard);
+                  updateKanban(column, column, index, index, nextCard);
                 }}
                 rows={7}
                 defaultValue={body}

@@ -1,8 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
+import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import Column from './Column';
-import { CardContent, defaultContent } from '../../domain/CardContent';
+import { useKanbanContents } from '../../hooks/kanbanContents';
+import { defaultContent } from '../../domain/CardContent';
 import AddTaskButton from '../Buttons/AddTaskButton';
 
 const KanbanContainer = styled.div`
@@ -37,53 +39,69 @@ const FlexContainer = styled.div`
   width: 100%;
 `;
 
-type Props = {
-  kanbanContents: CardContent[][];
-  updateKanbanContents: (
-    beforeColumn: number,
-    afterColumn: number,
-    beforeIndex: number,
-    afterIndex: number,
-    cardContent?: CardContent,
-  ) => void;
+const Kanban: React.FC = () => {
+  const [kanban, updateKanban] = useKanbanContents();
+  const kanbanContents = kanban.contents;
+
+  const onDragEnd = (result: DropResult) => {
+    if (!result.destination) {
+      return;
+    }
+    const columnNumber = Number(
+      result.source.droppableId.substr(result.source.droppableId.length - 1),
+    );
+    const nextColumnNumber = Number(
+      result.destination.droppableId.substr(
+        result.destination.droppableId.length - 1,
+      ),
+    );
+    updateKanban(
+      columnNumber,
+      nextColumnNumber,
+      result.source.index,
+      result.destination.index,
+    );
+  };
+
+  return (
+    <DragDropContext onDragEnd={onDragEnd}>
+      <KanbanContainer>
+        <Header>
+          <ProjectTitleLabel>FoxTale</ProjectTitleLabel>
+        </Header>
+        <TasksLabel>Tasks</TasksLabel>
+        <FlexContainer>
+          {kanbanContents.map((cardContents, index) => {
+            const droppableId = `column${index}`;
+
+            return (
+              <Column
+                key={droppableId}
+                column={index}
+                cardContents={cardContents}
+                updateKanban={updateKanban}
+              />
+            );
+          })}
+        </FlexContainer>
+        <AddTaskButton
+          onClick={() => {
+            const newCard = {
+              ...defaultContent,
+              id: uuidv4(),
+            };
+            updateKanban(
+              0,
+              0,
+              kanbanContents[0].length,
+              kanbanContents[0].length + 1,
+              newCard,
+            );
+          }}
+        />
+      </KanbanContainer>
+    </DragDropContext>
+  );
 };
-
-const Kanban: React.FC<Props> = ({ kanbanContents, updateKanbanContents }) => (
-  <KanbanContainer>
-    <Header>
-      <ProjectTitleLabel>FoxTale</ProjectTitleLabel>
-    </Header>
-    <TasksLabel>Tasks</TasksLabel>
-    <FlexContainer>
-      {kanbanContents.map((cardContents, index) => {
-        const droppableId = `column${index}`;
-
-        return (
-          <Column
-            key={droppableId}
-            column={index}
-            cardContents={cardContents}
-            updateKanbanContents={updateKanbanContents}
-          />
-        );
-      })}
-    </FlexContainer>
-    <AddTaskButton
-      onClick={() => {
-        const newCard = {
-          ...defaultContent,
-          id: uuidv4(),
-        };
-        updateKanbanContents(
-          0,
-          0,
-          kanbanContents[0].length,
-          kanbanContents[0].length + 1,
-          newCard,
-        );
-      }}
-    />
-  </KanbanContainer>
-);
 
 export default Kanban;

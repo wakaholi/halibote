@@ -1,72 +1,116 @@
-import { useState, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { CardContent } from 'domain/CardContent';
+import { Kanban, defaultKanban, ContentsFromRemote } from 'domain/Kanban';
+import firebase from '../firebase';
 
-const testKanbanContents = [
-  [
-    {
-      id: 'nanasaki',
-      title: '七咲逢',
-      body: '水泳部後輩',
-    },
-    {
-      id: 'shinboriRudorufu',
-      title: 'アグネスタキオン',
-      body: 'ハイライトなんていらないんですよやっぱり',
-    },
-    {
-      id: 'cherryBakushinKing',
-      title: 'サクラバクシンオー',
-      body: 'バクシンバクシンバクシンー！！！！！',
-    },
-  ],
-  [
-    {
-      id: 'sakurai',
-      title: '桜井梨穂子',
-      body: '幼なじみ',
-    },
-    {
-      id: 'umamusume',
-      title: 'ウマ娘',
-      body: 'みなきゃ',
-    },
-    {
-      id: 'Psan',
-      title: 'Pさん',
-      body: '兄さん',
-    },
-  ],
-  [
-    {
-      id: 'ayatsuji',
-      title: '絢辻詞',
-      body: '仮面優等生',
-    },
-    {
-      id: 'tokyoRavens',
-      title: '東京レイヴンズ',
-      body: 'みなきゃ',
-    },
-    {
-      id: 'Diamond',
-      title: 'ダイアモンド',
-      body: '何回転んだっていいさ',
-    },
-  ],
-];
+const convertContentsFromArrToObj = (contents: CardContent[][]) => {
+  return contents.reduce((colomnAcc, currentColumn, columnIndex) => {
+    const convertedCards = currentColumn.reduce(
+      (cardAcc, currentCard, cardIndex) => {
+        const copyCardAcc = { ...cardAcc };
+        copyCardAcc[cardIndex] = currentCard;
+
+        return copyCardAcc;
+      },
+      {} as CardContent[],
+    );
+    const copyColomnAcc = { ...colomnAcc };
+    copyColomnAcc[columnIndex] = convertedCards;
+
+    return copyColomnAcc;
+  }, {} as CardContent[][]);
+};
+
+const convertContentsFromObjToArr = (
+  contents: ContentsFromRemote,
+): CardContent[][] => {
+  const convertedContents = Object.keys(contents).map(columnKey => {
+    const convertedColumn = Object.keys(contents[columnKey]).map(cardKey => {
+      return contents[columnKey][cardKey];
+    });
+
+    return convertedColumn;
+  });
+
+  return convertedContents;
+};
+
+const createKanban = async (kanban: Kanban) => {
+  const db = firebase.firestore();
+  const convertedContents = convertContentsFromArrToObj(kanban.contents);
+
+  try {
+    const doc = await db.collection('kanban').add({
+      ...kanban,
+      ownerId: firebase.auth().currentUser?.uid,
+      contents: JSON.stringify(convertedContents),
+    });
+
+    return { ...kanban, id: doc.id, ownerId: firebase.auth().currentUser?.uid };
+  } catch (e) {
+    throw new Error(e);
+  }
+};
+
+const updateKanban = async (kanban: Kanban) => {
+  const db = firebase.firestore();
+  const convertedContents = convertContentsFromArrToObj(kanban.contents);
+
+  try {
+    await db
+      .collection('kanban')
+      .doc(kanban.id)
+      .set({
+        ...kanban,
+        contents: JSON.stringify(convertedContents),
+      });
+  } catch (e) {
+    throw new Error(e);
+  }
+};
+
+const fetchKanban = async (): Promise<Kanban> => {
+  const db = firebase.firestore();
+  const currentUserId = firebase.auth().currentUser?.uid;
+  const querySnapshot = await db
+    .collection('kanban')
+    .where('ownerId', '==', currentUserId)
+    .get();
+
+  const kanban = querySnapshot.docs[0].data();
+  const converterContents = convertContentsFromObjToArr(
+    JSON.parse(kanban.contents),
+  );
+
+  return {
+    ...kanban,
+    contents: converterContents,
+  };
+};
 
 export const useKanbanContents = () => {
-  const [kanbanContents, updateKanbanContents] = useState(testKanbanContents);
+  const [kanban, setKanban] = useState(defaultKanban);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await fetchKanban();
+      if (data.id) {
+        setKanban(data);
+      }
+    };
+    fetchData();
+  }, []);
 
   const kanbanHandler = useCallback(
-    (
+    async (
       beforeColumn: number,
       afterColumn: number,
       beforeIndex: number,
       afterIndex: number,
       cardContent?: CardContent,
     ) => {
-      const nextKanbanContents = [...kanbanContents];
+      const copyKanban = { ...kanban };
+      const nextKanbanContents = [...copyKanban.contents];
       // cardContentがある場合は更新される。
       const targetCard = {
         ...nextKanbanContents[beforeColumn].splice(beforeIndex, 1)[0],
@@ -74,11 +118,18 @@ export const useKanbanContents = () => {
       };
 
       nextKanbanContents[afterColumn].splice(afterIndex, 0, targetCard);
+      const nextKanban = { ...copyKanban, contents: nextKanbanContents };
 
-      updateKanbanContents(nextKanbanContents);
+      if (nextKanban.id) {
+        await updateKanban(nextKanban);
+        setKanban(nextKanban);
+      } else {
+        const newKanban = await createKanban(nextKanban);
+        setKanban(newKanban);
+      }
     },
-    [kanbanContents],
+    [kanban],
   );
 
-  return [kanbanContents, kanbanHandler] as const;
+  return [kanban, kanbanHandler] as const;
 };

@@ -1,10 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import Kanban from './Kanban';
 import Project from './Project';
 import Boards from './Boards';
-import { useKanbanContents } from '../hooks/kanbanContents';
 import { useUserInfo } from '../hooks/userInfo';
 
 const AppContainer = styled.div`
@@ -16,42 +14,18 @@ const AppContainer = styled.div`
 `;
 
 const App: React.FC = () => {
-  const [kanbanContents, updateKanbanContents] = useKanbanContents();
   const userInfo = useUserInfo();
 
-  const onDragEnd = (result: DropResult) => {
-    if (!result.destination) {
-      return;
-    }
-    const columnNumber = Number(
-      result.source.droppableId.substr(result.source.droppableId.length - 1),
-    );
-    const nextColumnNumber = Number(
-      result.destination.droppableId.substr(
-        result.destination.droppableId.length - 1,
-      ),
-    );
-    updateKanbanContents(
-      columnNumber,
-      nextColumnNumber,
-      result.source.index,
-      result.destination.index,
-    );
-  };
-
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
+    <>
       {userInfo.uid ? (
         <AppContainer>
           <Project />
           <Boards />
-          <Kanban
-            kanbanContents={kanbanContents}
-            updateKanbanContents={updateKanbanContents}
-          />
+          <Kanban />
         </AppContainer>
       ) : null}
-    </DragDropContext>
+    </>
   );
 };
 

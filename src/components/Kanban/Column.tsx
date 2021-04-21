@@ -22,7 +22,7 @@ const DroppableArea = styled.div`
 type Props = {
   column: number;
   cardContents: CardContent[];
-  updateKanbanContents: (
+  updateKanban: (
     beforeColumn: number,
     afterColumn: number,
     beforeIndex: number,
@@ -31,11 +31,7 @@ type Props = {
   ) => void;
 };
 
-const Column: React.FC<Props> = ({
-  column,
-  cardContents,
-  updateKanbanContents,
-}) => {
+const Column: React.FC<Props> = ({ column, cardContents, updateKanban }) => {
   const droppableId = `column${column}`;
 
   return (
@@ -53,7 +49,7 @@ const Column: React.FC<Props> = ({
                     column={column}
                     cardContent={cardContent}
                     index={cardIndex}
-                    updateKanbanContents={updateKanbanContents}
+                    updateKanban={updateKanban}
                   />
                 );
               })}
