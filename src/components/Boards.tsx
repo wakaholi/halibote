@@ -55,10 +55,10 @@ const Boards: React.FC = () => {
   return (
     <BoardsContainer>
       <ProjectNameArea>
-        <ProjectName>風月澪</ProjectName>
+        <ProjectName>ProjectName</ProjectName>
       </ProjectNameArea>
       <SelectedBoardNameContainer>
-        <BoardLabel>FoxTale</BoardLabel>
+        <BoardLabel>Board Name</BoardLabel>
       </SelectedBoardNameContainer>
       <BoardNameContainer>
         <BoardLabel>I&apos;m I</BoardLabel>

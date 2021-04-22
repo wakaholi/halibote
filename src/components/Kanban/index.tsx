@@ -67,7 +67,7 @@ const Kanban: React.FC = () => {
     <DragDropContext onDragEnd={onDragEnd}>
       <KanbanContainer>
         <Header>
-          <ProjectTitleLabel>FoxTale</ProjectTitleLabel>
+          <ProjectTitleLabel>Board Name</ProjectTitleLabel>
         </Header>
         <TasksLabel>Tasks</TasksLabel>
         <FlexContainer>
