@@ -36,7 +36,7 @@ const App: React.FC = () => {
           <TODOComponent>【TODO】</TODOComponent>
           <Project />
           <Boards />
-          <Kanban />
+          <Kanban photoUrl={userInfo.photoUrl} />
         </AppContainer>
       ) : null}
     </>

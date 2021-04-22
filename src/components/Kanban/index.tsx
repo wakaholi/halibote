@@ -20,11 +20,18 @@ const Header = styled.div`
   border-bottom: solid 0.5px #303435;
   display: flex;
   height: 112px;
+  justify-content: space-between;
 `;
 
 const ProjectTitleLabel = styled.div`
   font-size: 48px;
   font-weight: 900;
+`;
+
+const UserImg = styled.img`
+  border-radius: 40px;
+  height: 64px;
+  width: 64px;
 `;
 
 const TasksLabel = styled.div`
@@ -39,7 +46,11 @@ const FlexContainer = styled.div`
   width: 100%;
 `;
 
-const Kanban: React.FC = () => {
+type Props = {
+  photoUrl: string | null;
+};
+
+const Kanban: React.FC<Props> = ({ photoUrl }) => {
   const [kanban, updateKanban] = useKanbanContents();
   const kanbanContents = kanban.contents;
 
@@ -68,6 +79,7 @@ const Kanban: React.FC = () => {
       <KanbanContainer>
         <Header>
           <ProjectTitleLabel>Board Name</ProjectTitleLabel>
+          {photoUrl && <UserImg src={photoUrl} />}
         </Header>
         <TasksLabel>Tasks</TasksLabel>
         <FlexContainer>
