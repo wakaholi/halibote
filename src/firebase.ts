@@ -13,6 +13,7 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
+// TODO: logoutを実装したらfirebase.auth.Auth.Persistence.LOCALに変更
 firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
 
 export default firebase;
