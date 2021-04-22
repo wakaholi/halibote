@@ -13,6 +13,19 @@ const AppContainer = styled.div`
   width: 100vw;
 `;
 
+const TODOComponent = styled.div`
+  align-items: center;
+  background-color: rgba(12, 36, 44, 0.5);
+  color: #f4f5ff;
+  display: flex;
+  font-size: 60px;
+  font-weight: 900;
+  height: 100vh;
+  justify-content: center;
+  position: absolute;
+  width: 440px;
+`;
+
 const App: React.FC = () => {
   const userInfo = useUserInfo();
 
@@ -20,6 +33,7 @@ const App: React.FC = () => {
     <>
       {userInfo.uid ? (
         <AppContainer>
+          <TODOComponent>【TODO】</TODOComponent>
           <Project />
           <Boards />
           <Kanban />
