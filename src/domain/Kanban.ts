@@ -1,8 +1,11 @@
 import { CardContent } from './CardContent';
 
 export type Kanban = {
+  // カンバン自体ののId
   id?: string;
+  // 看板のownerのuid
   ownerId?: string;
+  // 看板の内容
   contents: CardContent[][];
 };
 
